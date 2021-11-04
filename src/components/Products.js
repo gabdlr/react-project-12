@@ -28,7 +28,7 @@ const Products = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {products.length === 0 ? <tr className="mt-3" colspan="3"><td>No products were found</td></tr> : (
+                    {products.length === 0 ? <tr className="mt-3"><td colspan="3">No products were found</td></tr> : (
                         products.map(product =>
                             <Product
                                 key={product.id}
