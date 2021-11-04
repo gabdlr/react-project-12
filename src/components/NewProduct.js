@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 //Redux's actions
 import { createNewProductAction } from '../actions/productActions';
+import { showAlert, hideAlert } from '../actions/alertActions';
 
-const NewProduct = () => {
+const NewProduct = ({history}) => {
 
     //Component state
     const [name, setName] = useState('');
@@ -13,6 +14,11 @@ const NewProduct = () => {
     //using useDispatch create us a new function
     const dispatch = useDispatch();
 
+    //Accessing to the store's state
+    //state route state.products.attribute
+    //const loading = useSelector(state => state.products.loading);
+    //const error = useSelector(state => state.products.error);
+    const alert = useSelector(state => state.alerts.alert);
     //useDispatch allow us to use our actions functions
     //Calls the action from productActions
     const addNewProduct = product => dispatch(createNewProductAction(product));
@@ -22,15 +28,26 @@ const NewProduct = () => {
 
         e.preventDefault();
         //Validate form
-        if (name.trim() === "" || price <= 0)
+        if (name.trim() === "" || price <= 0) {
+            const alert = {
+                msg: 'Both fields are required',
+                classes: 'alert alert-danger text-center text-uppercase p-3'
+            }
+            dispatch(showAlert(alert));
             return;
-        //If no errors
+        }
 
+        //If no errors
+        dispatch(hideAlert());
         //Create new product
         addNewProduct({
             name,
             price
         });
+
+        //Home redirect (this could be improved a lot)
+        history.push('/');
+        
     }
     
     return (
@@ -41,6 +58,7 @@ const NewProduct = () => {
                         <h2 className="text-center-mb-4 font-weight-bold">
                             Add a new product
                         </h2>
+                        {alert ? <p className={alert.classes}>{alert.msg}</p> : null}
                         <form
                             onSubmit={submitNewProduct}
                             action="">
@@ -71,6 +89,20 @@ const NewProduct = () => {
                                         d-block w-100"
                             >Add</button>
                         </form>
+                        {/* This whole block makes no sense since we are redirecting
+                            This happens too fast 
+                            {loading ?
+                            <div class="alert alert-success mt-2" role="alert">
+                            Loading...
+                            </div>
+                            : null} */}
+                        {/* {error ?
+                            <div
+                                className="alert alert-danger mt-4 mb-0"
+                                role="alert">
+                                    Oops, something went wrong!
+                            </div>
+                            : null} */}
                     </div>
                 </div>
             </div>

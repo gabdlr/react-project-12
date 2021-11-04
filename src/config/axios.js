@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
 const axiosClient = axios.create({
-    baseURL: 'http://localhost:4000/'
+    baseURL: 'https://gabtestlaravelapp.herokuapp.com/api/'
 });
 
 export default axiosClient;
