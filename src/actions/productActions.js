@@ -92,6 +92,7 @@ export function createNewProductAction(product) {
             //db insert
             const response = await axiosClient.post('/products', product);
             //If everything goes right then
+            console.log(response); //debugging
             dispatch(addProductSuccess(response.data));
             Swal.fire({
                 title: 'Success!',
